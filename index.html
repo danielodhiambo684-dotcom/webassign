@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RentHub — Login</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <h1> Embu RentHub</h1>
+
+    <form id="loginForm" class="auth-form">
+      <h2>Welcome Back</h2>
+      <input type="email" placeholder="Email@" required />
+      <input type="number" placeholder="phone number" required />
+      <input type="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+      <p class="toggle">Don’t have an account? <a href="#" id="showSignup">Sign Up</a></p>
+    </form>
+
+    <form id="signupForm" class="auth-form" style="display:none;">
+      <h2>Create Account</h2>
+      <input type="text" placeholder="Full Name" required />
+     <input type="number" placeholder="phone number" required />
+      <input type="password" placeholder="Password" required />
+      <button type="submit">Sign Up</button>
+      <p class="toggle">Already have an account? <a href="#" id="showLogin">Login</a></p>
+    </form>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const showSignup = document.getElementById('showSignup');
+    const showLogin = document.getElementById('showLogin');
+
+    if (showSignup) {
+      showSignup.addEventListener('click', function(e) {
+        e.preventDefault();
+        loginForm.style.display = 'none';
+        signupForm.style.display = 'block';
+      });
+    }
+
+   
+    if (showLogin) {
+      showLogin.addEventListener('click', function(e) {
+        e.preventDefault();
+        signupForm.style.display = 'none';
+        loginForm.style.display = 'block';
+      });
+    }
+
+    if (loginForm) {
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        console.log("Login clicked – redirecting to home.html");
+        window.location.href = 'home.html';
+      });
+    }
+
+    if (signupForm) {
+      signupForm.addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        console.log("Signup clicked – redirecting to home.html");
+        window.location.href = 'home.html';
+      });
+    }
+  });
+</script>

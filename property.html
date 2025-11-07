@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Property Details — RentHub</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .slider-container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      width: 100%;
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 500px;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slider-arrow:hover {
+      background: rgba(0,0,0,0.8);
+    }
+
+    .prev { left: 15px; }
+    .next { right: 15px; }
+
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ccc;
+      margin: 0 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .dot.active {
+      background: var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-logo">
+      <a href="home.html"><i class="fas fa-home"></i></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="properties.html">Property</a></li>
+    </ul>
+  </nav>
+
+  <div id="property-content">
+    <p style="text-align: center; padding: 3rem; font-size: 1.2rem;">Loading property...</p>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2025 RentHub. Find your perfect home.</p>
+  </footer>
+
+  <script>
+    const properties = {
+      1: {
+        title: "Bagik Hostels",
+        location: "Embu, Bagik",
+        price: "9000/ 3month",
+        beds: 2,
+        baths: 1,
+        sqft: 1200,
+        description: "Bright and spacious . Features include tiles floors, stainless steel appliances, floor-to-ceiling windows, and a private balcony with calvidas hotel views.",
+        images: [
+          "images/Bagik Hostels - 3.png",
+          "images/Bagik Hostels - 4.png",
+          "images/Bagik Hostels - 5.png",
+          "images/Bagik Hostels -2.png"
+        ]
+      },
+      2: {
+        title: "Perez hostels",
+        location: "Embu, embu town",
+        price: "8500ksh/3 month",
+        beds: 4,
+        baths: 2,
+        sqft: 2100,
+        description: "Charming student home in a quiet neighborhood with a large balcon for Embu town view. Close to schools and parks.",
+        images: [
+          "images/perez - 2.png",
+          "images/perez - 4.png",
+          "images/perez -1.png",
+          "images/pereze - 5.png"
+        ]
+      },
+      3: {
+        title: "Kamanor aprtment",
+        location: "Embu, Kangaru",
+        price: "25000ksh / 1month",
+        beds: 3,
+        baths: 2,
+        sqft: 800,
+        description: "Cozy cottage with stunning kangaru market views. Perfect for a peaceful shopping.",
+        images: [
+          "images/image-kamanor-2.png",
+          "images/kamanor-3.png",
+          "images/kamanor-4.jpg",
+          "images/kamanor-5.jpg"
+        ]
+      },
+      4: {
+        title: "Prestige hostel",
+        location: "Embu, Bagik",
+        price: "15000 ksh / 3 month",
+        beds: 3,
+        baths: 2,
+        sqft: 600,
+        description: "Efficient space in the heart of the bagik centre . Walking distance to university of Embu",
+        images: [
+          "images/prestige-4.jpg",
+      
+          "images/prestige-3.jpg",
+          "images/prestige-1.jpeg"
+        ]
+      },
+      5: {
+        title: "Peru villa",
+        location: "Embu, Gtown",
+        price: "50000ksh / month",
+        beds: 4,
+        baths: 2.5,
+        sqft: 3000,
+        description: "Luxury villa with panoramic mountain views. Features include a gourmet kitchen, hot tub, and expansive deck.",
+        images: [
+          "images/peru-2.jpg",
+          "images/peru-5.jpg",
+          "images/peru-6.jpg",
+        ]
+      },
+      6: {
+        title: "tel aviv villa",
+        location: "Embu, Gtown",
+        price: "60000ksh / month",
+        beds: 3,
+        baths: 2,
+        sqft: 950,
+        description: "Sunny garden-level apartment with private entrance and patio. Surrounded by greenery and close to public transit.",
+        images: [
+          "images/tela avi-2.jpg",
+          "images/tela aviv-3.jpg",
+          "images/tela viv-4.jpg"
+        ]
+      }
+    };
+
+    let currentSlide = 0;
+    let slideInterval;
+    const slideDelay = 5000; 
+
+    function getPropertyId() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('id') || '1';
+    }
+
+    function renderSlider(images) {
+      const sliderHTML = `
+        <div class="slider-container">
+          <div class="slides" id="slides">
+            ${images.map(img => `<div class="slide"><img src="${img}" alt="Property view"></div>`).join('')}
+          </div>
+          <button class="slider-arrow prev" onclick="changeSlide(-1)">&#10094;</button>
+          <button class="slider-arrow next" onclick="changeSlide(1)">&#10095;</button>
+          <div class="slider-dots" id="slider-dots">
+            ${images.map((_, i) => `<span class="dot" onclick="currentSlide=${i}; showSlide()"></span>`).join('')}
+          </div>
+        </div>
+      `;
+      return sliderHTML;
+    }
+
+    function renderProperty(id) {
+      const prop = properties[id];
+      if (!prop) {
+        document.getElementById('property-content').innerHTML = 
+          `<div class="page-content"><h1>Property Not Found</h1></div>`;
+        return;
+      }
+
+      const html = `
+        <div class="page-content">
+          ${renderSlider(prop.images)}
+          
+          <div class="property-details">
+            <h1>${prop.title}</h1>
+            <p class="location"><i class="fas fa-map-marker-alt"></i> ${prop.location}</p>
+            <div class="meta">
+              <span><i class="fas fa-bed"></i> ${prop.beds} Beds</span>
+              <span><i class="fas fa-bath"></i> ${prop.baths} Baths</span>
+              <span><i class="fas fa-ruler-combined"></i> ${prop.sqft} sqft</span>
+            </div>
+            <p class="price">${prop.price}</p>
+            <p class="description">${prop.description}</p>
+            <button class="btn-contact">Contact Agent</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('property-content').innerHTML = html;
+      showSlide();
+      startSlideShow();
+      
+      document.querySelector('.slider-container').addEventListener('mouseenter', () => clearInterval(slideInterval));
+      document.querySelector('.slider-container').addEventListener('mouseleave', () => startSlideShow());
+    }
+
+    function showSlide() {
+      const slides = document.querySelectorAll('.slide');
+      const dots = document.querySelectorAll('.dot');
+      
+      if (slides.length === 0) return;
+      
+      slides.forEach(slide => slide.style.display = 'none');
+      dots.forEach(dot => dot.classList.remove('active'));
+      
+      if (currentSlide >= slides.length) currentSlide = 0;
+      if (currentSlide < 0) currentSlide = slides.length - 1;
+      
+      slides[currentSlide].style.display = 'block';
+      dots[currentSlide].classList.add('active');
+    }
+
+    function changeSlide(direction) {
+      currentSlide += direction;
+      showSlide();
+    }
+
+    function startSlideShow() {
+      slideInterval = setInterval(() => {
+        currentSlide++;
+        showSlide();
+      }, slideDelay);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const id = getPropertyId();
+      renderProperty(id);
+    });
+  </script>
+</body>
+</html>

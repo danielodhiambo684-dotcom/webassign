@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Embu RentHub — Find Your Home</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  
+  <nav class="navbar">
+    <div class="nav-logo">
+      <a href="home.html"><i class="fas fa-home"></i></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="properties.html">Property</a></li>
+    </ul>
+  </nav>
+
+  <div class="search-section">
+    <div class="search-container">
+      <div class="search-bar" id="searchBar">
+        <i class="fas fa-search"></i>
+        <span>Search by location or budget...</span>
+      </div>
+      <div class="search-dropdown" id="searchDropdown">
+        <div class="search-option">📍 Location</div>
+        <div class="search-option">💰 Budget</div>
+      </div>
+    </div>
+  </div>
+
+  <section class="properties-section">
+    <h2>Featured Rentals</h2>
+    <div class="property-grid">
+      <div class="property-card" onclick="location.href='property.html?id=1'">
+        <img src="images/Bagik Hostels .png" alt="bagik hostels">
+        <div class="card-info">
+          <h3>Bagik hostels</h3>
+          <p>9000ksh/ 3month</p>
+        </div>
+      </div>
+      
+      <div class="property-card" onclick="location.href='property.html?id=2'">
+        <img src="images/perez -1.png" alt="perez hostels">
+        <div class="card-info">
+          <h3>perez hostels</h3>
+          <p>8500ksh/ 3 month</p>
+        </div>
+      </div>
+      
+      <div class="property-card" onclick="location.href='property.html?id=3'">
+        <img src="images/image-kama1.png" alt="kamanor">
+        <div class="card-info">
+          <h3>kamanor</h3>
+          <p>15000 ksh/ 3month</p>
+        </div>
+      </div>
+      
+      <div class="property-card" onclick="location.href='property.html?id=4'">
+        <img src="images/prestige-1.jpeg" alt="prestige">
+        <div class="card-info">
+          <h3>prestige hostels</h3>
+          <p>15000ksh/3 month</p>
+        </div>
+      </div>
+      
+      <div class="property-card" onclick="location.href='property.html?id=5'">
+        <img src="images/peru-7.jpg" alt="peru">
+        <div class="card-info">
+          <h3>peru</h3>
+          <p>30000ksh/ 1 month</p>
+        </div>
+      </div>
+      
+      <div class="property-card" onclick="location.href='property.html?id=6'">
+        <img src="images/tela viv-1.jpg" alt="tela viv villa">
+        <div class="card-info">
+          <h3>tel avi villa</h3>
+          <p>60000ksh/ month</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; 2025 Embu RentHub. Find your perfect home.</p>
+    <div class="footer-links">
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="faq.html">FAQ</a>
+      <a href="privacy.html">Privacy</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('searchBar').addEventListener('click', () => {
+      document.getElementById('searchDropdown').classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      const searchBar = document.getElementById('searchBar');
+      const dropdown = document.getElementById('searchDropdown');
+      if (!searchBar.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
